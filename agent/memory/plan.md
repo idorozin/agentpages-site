@@ -4,10 +4,15 @@
 
 ## Current Priorities
 
-1. Read user profile and understand research mission
-2. Conduct initial research on user-defined topics
-3. Generate initial website
+1. Research **use cases and examples** — what kinds of sites people build with AgentPages
+2. Research **Tavily API** — capabilities, pricing, search vs extract, best practices for research agents
+3. Research **the Astro framework** — why Astro for static sites, performance, component model
+4. Deep-dive **MCP (Model Context Protocol)** — what it is, why it matters for agentic workflows
 
 ## Backlog
 
-*(populated by the agent after first run)*
+- Community & ecosystem: projects built on AgentPages, related tools
+- Continuous AI patterns and examples from GitHub Next
+- Cost comparison across AI engines (Claude vs Copilot vs Codex vs Gemini)
+- Advanced gh-aw: pinning versions, custom MCP scripts, environment variables
+- GitHub Pages setup and deployment tips

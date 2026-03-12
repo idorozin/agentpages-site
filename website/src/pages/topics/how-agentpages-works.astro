@@ -1,0 +1,135 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/idorozin/AgentPages", title: "AgentPages GitHub Repository" },
+  { url: "https://github.github.com/gh-aw/introduction/how-they-work/", title: "GitHub Agentic Workflows — How They Work" },
+];
+---
+
+<Base title="How AgentPages Works — AgentPages" description="The core loop: how AgentPages researches topics, builds knowledge, and publishes a static site automatically.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">How AgentPages Works</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>AgentPages is an open-source GitHub repository template that turns any repo into an <strong>AI-maintained research website</strong>. Once configured, an AI agent automatically researches topics, updates a knowledge base, builds a static site, and publishes it via GitHub Pages — all without manual intervention.</p>
+
+      <h2>The Core Loop</h2>
+      <p>The system runs on a 12-hour cron schedule (or manual trigger) via a GitHub Agentic Workflow:</p>
+
+      <pre><code>user/          →  You define what to research
+    ↓
+agent/         →  AI maintains knowledge & memory
+    ↓
+website/src/   →  AI updates the Astro source files
+    ↓
+docs/          →  Astro builds the website (served by GitHub Pages)</code></pre>
+
+      <p>Each run, the agent:</p>
+      <ol>
+        <li>Reads your instructions from <code>user/</code> (profile, feedback, requests)</li>
+        <li>Researches topics using Tavily web search</li>
+        <li>Updates its knowledge base in <code>agent/knowledge/</code></li>
+        <li>Edits Astro source files in <code>website/src/</code></li>
+        <li>Builds the site into <code>docs/</code> with <code>npx astro build</code></li>
+        <li>Creates a PR — auto-merged by the companion <code>auto-merge.yml</code> workflow</li>
+      </ol>
+
+      <h2>Separation of Concerns</h2>
+      <table>
+        <thead>
+          <tr><th>Directory</th><th>Owned By</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>user/</code></td><td>You</td><td>Research focus, style prefs, feedback, requests</td></tr>
+          <tr><td><code>agent/</code></td><td>Agent</td><td>Knowledge files, memory, action log, plan</td></tr>
+          <tr><td><code>website/src/</code></td><td>Agent</td><td>Astro source pages and data</td></tr>
+          <tr><td><code>docs/</code></td><td>Build</td><td>Compiled static site output — never edit directly</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Key Components</h2>
+
+      <h3><code>user/profile.md</code></h3>
+      <p>Defines what to research, the agent's personality, tone, and goals. This is the primary control interface.</p>
+
+      <h3><code>user/requests/</code></h3>
+      <p>A folder of markdown files for specific one-off research requests. Each request has a <code>status</code> field (<code>new</code> → <code>in-progress</code> → <code>completed</code>).</p>
+
+      <h3><code>agent/knowledge/</code></h3>
+      <p>One markdown file per research topic, with YAML frontmatter tracking <code>last_updated</code> and <code>sources</code>. The agent refreshes topics older than 7 days.</p>
+
+      <h3><code>agent/memory/</code></h3>
+      <p>Three files that give the agent continuity between runs:</p>
+      <ul>
+        <li><code>log.md</code> — append-only record of what was done each run</li>
+        <li><code>plan.md</code> — current priorities and backlog</li>
+        <li><code>state.json</code> — counters and timestamps (run count, last run, topics count)</li>
+      </ul>
+
+      <h3><code>website/src/data/site.json</code></h3>
+      <p>The central data file. Contains the site title, tagline, and the full <code>topics</code> array that drives the homepage card grid.</p>
+
+      <h2>Auto-Merge Workflow</h2>
+      <p>Agent PRs are automatically merged via <code>auto-merge.yml</code>. This enables a fully hands-off update cycle: the agent researches, builds, creates a PR, and the PR is auto-merged — the live site updates within minutes.</p>
+
+      <h2>How the Agent Decides What to Research</h2>
+      <p>Priority order each run:</p>
+      <ol>
+        <li><strong>Explicit requests</strong> in <code>user/requests/</code> with <code>status: new</code></li>
+        <li><strong>Stale topics</strong> not updated in over 7 days</li>
+        <li><strong>New angles</strong> on existing topics</li>
+        <li><strong>New related topics</strong> within the user's focus areas</li>
+      </ol>
+      <p>The agent limits itself to 2–3 topics per run to stay focused and within API rate limits.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>

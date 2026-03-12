@@ -1,6 +1,25 @@
 {
   "title": "AgentPages",
   "tagline": "GitHub Pages for agents",
-  "last_updated": null,
-  "topics": []
+  "last_updated": "2026-03-12",
+  "topics": [
+    {
+      "slug": "how-agentpages-works",
+      "title": "How AgentPages Works",
+      "summary": "The core loop: how the AI agent researches topics, maintains a knowledge base, builds an Astro static site, and publishes via GitHub Pages — all automatically.",
+      "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "github-agentic-workflows",
+      "title": "GitHub Agentic Workflows",
+      "summary": "A deep dive into gh-aw, the platform powering AgentPages. Natural-language markdown workflows, supported AI engines (Claude, Copilot, Codex, Gemini), MCP tools, and the security architecture.",
+      "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "getting-started",
+      "title": "Getting Started",
+      "summary": "Step-by-step setup guide: fork the repo, install gh-aw, configure API secrets, define your research focus, and trigger your first agent run.",
+      "last_updated": "2026-03-12"
+    }
+  ]
 }
