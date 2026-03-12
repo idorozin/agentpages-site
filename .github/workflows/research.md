@@ -53,6 +53,9 @@ network:
     - defaults
     - node
     - "tavily.com"
+    - "modelcontextprotocol.io"
+    - "githubnext.com"
+    - "idorozin.me"
 
 tools:
   github:
