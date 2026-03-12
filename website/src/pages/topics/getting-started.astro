@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/idorozin/AgentPages", title: "AgentPages GitHub Repository — Quick Start" },
+  { url: "https://github.github.com/gh-aw/reference/engines/", title: "gh-aw Engine Reference" },
+];
+---
+
+<Base title="Getting Started with AgentPages" description="Step-by-step setup guide: fork the repo, configure API secrets, define your research focus, and run your first agent.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Getting Started with AgentPages</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>This guide walks through setting up your own AgentPages instance — from forking the repo to your first AI-generated research site.</p>
+
+      <h2>Prerequisites</h2>
+      <ul>
+        <li>A GitHub account with GitHub Pages enabled</li>
+        <li>The <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">GitHub CLI (<code>gh</code>) ↗</a></li>
+        <li>An AI API key — Anthropic Claude, OpenAI Codex, Google Gemini, or GitHub Copilot</li>
+        <li>A <a href="https://tavily.com/" target="_blank" rel="noopener noreferrer">Tavily ↗</a> API key (free tier: 1,000 searches/month)</li>
+      </ul>
+
+      <h2>Step 1: Fork the Repository</h2>
+      <p>Click <strong>Fork</strong> on <a href="https://github.com/idorozin/AgentPages" target="_blank" rel="noopener noreferrer">idorozin/AgentPages ↗</a> to create your own copy. Keep the default branch as <code>main</code>.</p>
+
+      <h2>Step 2: Install the gh-aw CLI</h2>
+      <pre><code>gh extension install github/gh-aw</code></pre>
+      <p>This installs the GitHub Agentic Workflows CLI extension, which compiles and runs agentic workflow markdown files.</p>
+
+      <h2>Step 3: Set Up API Secrets</h2>
+      <pre><code># Required: Tavily for web search
+gh aw secrets set TAVILY_API_KEY --value "tvly-..."
+
+# Required: your chosen AI engine
+gh aw secrets set ANTHROPIC_API_KEY --value "sk-ant-..."
+# OR: gh aw secrets set OPENAI_API_KEY --value "sk-..."
+# OR: gh aw secrets set GEMINI_API_KEY --value "..."</code></pre>
+
+      <h2>Step 4: Choose Your AI Engine</h2>
+      <p>Open <code>.github/workflows/research.md</code> and update the <code>engine</code> block:</p>
+      <pre><code>engine:
+  id: claude          # claude | codex | gemini | copilot
+  model: claude-sonnet-4-6</code></pre>
+      <p>After editing, recompile:</p>
+      <pre><code>gh aw compile .github/workflows/research.md</code></pre>
+
+      <h2>Step 5: Define Your Research Focus</h2>
+      <p>Edit <code>user/profile.md</code> — this is the most important file:</p>
+      <pre><code>## What to Research
+I'm tracking developments in renewable energy, particularly solar panel
+efficiency improvements and grid-scale storage solutions.
+
+## Focus Areas
+- Perovskite solar cell breakthroughs
+- Grid-scale battery storage
+- Policy changes affecting solar adoption
+- Cost curves and levelized cost of energy (LCOE)
+
+## Personality
+- Technical depth for engineers
+- Include cost/performance numbers where available
+- Cite primary sources</code></pre>
+      <p>Also edit <code>user/website.md</code> to set your site title, tagline, and style preferences.</p>
+
+      <h2>Step 6: Configure GitHub Pages</h2>
+      <p>Edit <code>website/astro.config.mjs</code>:</p>
+      <pre><code>export default defineConfig(&#123;
+  site: 'https://YOUR_USERNAME.github.io',
+  base: '/YOUR_REPO_NAME',
+&#125;);</code></pre>
+      <p>Then go to your repo <strong>Settings → Pages → Source: Deploy from a branch → Branch: <code>main</code>, Folder: <code>/docs</code> → Save</strong>.</p>
+
+      <h2>Step 7: Compile and Push</h2>
+      <pre><code>gh aw compile .github/workflows/research.md
+git add .
+git commit -m "Configure my AgentPages instance"
+git push</code></pre>
+
+      <h2>Step 8: Run the Agent</h2>
+      <p>Wait for the 12-hour cron schedule, or trigger manually:</p>
+      <pre><code>gh aw run research</code></pre>
+      <p>The agent creates a PR with its first research batch. The <code>auto-merge.yml</code> workflow automatically merges it.</p>
+
+      <h2>Tips and Gotchas</h2>
+
+      <h3>Be Specific in <code>profile.md</code></h3>
+      <p>Vague research areas produce vague results. The more specific your focus areas, the more useful the output. Include example questions you want answered.</p>
+
+      <h3>Use <code>user/requests/</code> for One-Off Topics</h3>
+      <p>Create a request file with <code>status: new</code> for temporary interests. Mark it <code>status: completed</code> once addressed, or the agent will keep picking it up.</p>
+
+      <h3>Auto-Merge Requires Actions Permissions</h3>
+      <p>Ensure <strong>Settings → Actions → General → Workflow permissions</strong> is set to "Read and write permissions" and "Allow GitHub Actions to create and approve pull requests" is checked.</p>
+
+      <h3>Tavily Free Tier Limits</h3>
+      <p>The free tier gives 1,000 searches/month. With ~5 searches per run and 2 runs/day, you'll use ~300 searches/month — well within the free tier.</p>
+
+      <h3>Website Not Updating?</h3>
+      <p>Check: (1) GitHub Pages serves from <code>docs/</code> on <code>main</code>, (2) the PR was auto-merged, (3) the <code>astro build</code> step succeeded.</p>
+
+      <h2>Giving Feedback</h2>
+      <p>After reviewing the agent's output:</p>
+      <ul>
+        <li><strong>Edit <code>user/feedback.md</code></strong> for ongoing guidance</li>
+        <li><strong>Create <code>user/requests/</code> files</strong> for specific topics</li>
+        <li><strong>Edit <code>user/profile.md</code></strong> to shift focus permanently</li>
+      </ul>
+      <p>The agent reads all user files at the start of every run.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>

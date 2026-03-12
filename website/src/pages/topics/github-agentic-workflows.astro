@@ -1,0 +1,182 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/github/gh-aw", title: "gh-aw GitHub Repository" },
+  { url: "https://github.github.com/gh-aw/introduction/how-they-work/", title: "GitHub Agentic Workflows — How They Work" },
+  { url: "https://github.github.com/gh-aw/reference/engines/", title: "gh-aw Engine Reference" },
+];
+---
+
+<Base title="GitHub Agentic Workflows — AgentPages" description="A deep dive into gh-aw: natural-language markdown workflows, AI engines, MCP tools, and security architecture.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">GitHub Agentic Workflows (gh-aw)</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>GitHub Agentic Workflows (<code>gh-aw</code>) is the underlying platform that powers AgentPages. It's a GitHub CLI extension that lets you write agentic workflows in <strong>natural language markdown</strong> and run them inside GitHub Actions.</p>
+
+      <h2>What Makes It "Agentic"</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>Traditional Workflows</th><th>Agentic Workflows</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Logic</td><td>Pre-programmed, deterministic</td><td>AI-driven, context-aware</td></tr>
+          <tr><td>Instructions</td><td>YAML steps</td><td>Natural language markdown</td></tr>
+          <tr><td>Adaptability</td><td>Same behavior every run</td><td>Adapts to each situation</td></tr>
+          <tr><td>Decision-making</td><td>None</td><td>Full AI reasoning</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Workflow Structure</h2>
+      <p>Every <code>gh-aw</code> workflow is a markdown file with YAML frontmatter:</p>
+      <pre><code>---
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+permissions:
+  contents: write
+tools:
+  - tavily
+engine:
+  id: claude
+  model: claude-sonnet-4-6
+---
+
+# Natural Language Instructions
+
+Research the latest news about quantum computing.
+Update the knowledge base in agent/knowledge/.
+...</code></pre>
+      <p>The frontmatter defines <strong>when</strong> it runs, <strong>what</strong> it can access, and <strong>which tools and AI engine</strong> to use. The markdown body is plain English instructions the AI interprets and executes.</p>
+
+      <h2>Supported AI Engines</h2>
+      <table>
+        <thead>
+          <tr><th>Engine</th><th><code>engine.id</code></th><th>Required Secret</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GitHub Copilot CLI (default)</td><td><code>copilot</code></td><td><code>COPILOT_GITHUB_TOKEN</code></td></tr>
+          <tr><td>Claude by Anthropic</td><td><code>claude</code></td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+          <tr><td>OpenAI Codex</td><td><code>codex</code></td><td><code>OPENAI_API_KEY</code></td></tr>
+          <tr><td>Google Gemini CLI</td><td><code>gemini</code></td><td><code>GEMINI_API_KEY</code></td></tr>
+        </tbody>
+      </table>
+      <p>Copilot is the default — omit <code>engine:</code> entirely to use it. Switching engines requires recompiling with <code>gh aw compile</code>.</p>
+
+      <h2>Tools and MCP</h2>
+      <p>Workflows access capabilities through the <strong>Model Context Protocol (MCP)</strong> — a standardized protocol for connecting AI agents to external tools and services. Tool categories include:</p>
+      <ul>
+        <li><strong>GitHub operations</strong> — read/write issues, PRs, files, comments</li>
+        <li><strong>Web search</strong> — Tavily API for real-time research</li>
+        <li><strong>File operations</strong> — read and write files in the repo</li>
+        <li><strong>Custom MCP scripts</strong> — inline tool definitions in frontmatter</li>
+      </ul>
+
+      <h2>Security Architecture</h2>
+      <p>Security is foundational to <code>gh-aw</code>. The system uses defense-in-depth:</p>
+      <ul>
+        <li><strong>Read-only by default</strong> — no write permissions unless explicitly granted</li>
+        <li><strong>Safe outputs</strong> — write operations go through a sanitization layer before being applied</li>
+        <li><strong>Sandboxed execution</strong> — AI runs in an isolated container with a network firewall</li>
+        <li><strong>Tool allowlisting</strong> — AI can only use tools listed in the frontmatter</li>
+        <li><strong>Prompt injection defense</strong> — inputs from issues, PRs, and external sources are treated as untrusted data</li>
+        <li><strong>SHA-pinned dependencies</strong> — supply chain security via locked action versions</li>
+        <li><strong>Human approval gates</strong> — critical operations can require human confirmation</li>
+      </ul>
+
+      <h2>Compile → Lock File</h2>
+      <p>The workflow <code>.md</code> file is the editable source. <code>gh aw compile</code> generates a <code>.lock.yml</code> — the compiled Actions workflow with security hardening baked in. Both must be committed.</p>
+      <pre><code># Install the extension
+gh extension install github/gh-aw
+
+# Compile a workflow
+gh aw compile .github/workflows/research.md
+
+# Trigger a run manually
+gh aw run research
+
+# View logs and costs
+gh aw logs</code></pre>
+
+      <h2>Companion Projects</h2>
+      <table>
+        <thead>
+          <tr><th>Project</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/github/gh-aw-firewall" target="_blank" rel="noopener noreferrer">gh-aw-firewall (AWF) ↗</a></td>
+            <td>Network egress control — domain-based allowlists for AI agents</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/github/gh-aw-mcpg" target="_blank" rel="noopener noreferrer">MCP Gateway ↗</a></td>
+            <td>Routes MCP server calls through a unified HTTP gateway</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/github/gh-aw-actions" target="_blank" rel="noopener noreferrer">gh-aw-actions ↗</a></td>
+            <td>Shared library of custom Actions used by compiled workflows</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Continuous AI</h2>
+      <p><code>gh-aw</code> enables what GitHub Next calls <strong>Continuous AI</strong> — systematic, automated application of AI to software collaboration. Common patterns include:</p>
+      <ul>
+        <li>Keeping documentation current automatically</li>
+        <li>Incrementally improving code quality</li>
+        <li>Intelligently triaging issues and PRs</li>
+        <li>Automating code review</li>
+        <li>Maintaining research knowledge bases (AgentPages)</li>
+      </ul>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>
