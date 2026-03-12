@@ -2,7 +2,7 @@
 
 ## What to Research
 
-AgentPages is an open-source template that turns any GitHub repository into an AI-maintained research website. Research and document everything about AgentPages: how it works, use cases, the ecosystem around it (GitHub Agentic Workflows, Astro, Tavily), and examples of what people are building with it.
+AgentPages is an open-source template that turns any GitHub repository into an AI-maintained research website. The project lives at https://github.com/idorozin/AgentPages. Research and document everything about AgentPages: how it works, use cases, the ecosystem around it (GitHub Agentic Workflows, Astro, Tavily), and examples of what people are building with it.
 
 ## Focus Areas
 
