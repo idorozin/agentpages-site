@@ -4,6 +4,18 @@
   "last_updated": "2026-03-12",
   "topics": [
     {
+      "slug": "tavily-api",
+      "title": "Tavily API",
+      "summary": "The AI-native search engine powering AgentPages research. Learn about Search, Extract, QnA, Crawl, and how to stay within the free tier's 1,000 credits/month.",
+      "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "astro-framework",
+      "title": "Astro Framework",
+      "summary": "Why AgentPages uses Astro: the islands architecture, zero-JS-by-default, file-based routing, and how the AI agent updates the site on each research run.",
+      "last_updated": "2026-03-12"
+    },
+    {
       "slug": "how-agentpages-works",
       "title": "How AgentPages Works",
       "summary": "The core loop: how the AI agent researches topics, maintains a knowledge base, builds an Astro static site, and publishes via GitHub Pages — all automatically.",
