@@ -4,7 +4,30 @@
 
 ---
 
-## Run 1 — 2026-03-12
+## Run 2 — 2026-03-12
+
+**Topics researched:** 2
+- **Tavily API** — full API surface (Search, Extract, QnA, Crawl, Map, Research), RAG context generation, credit pricing, best practices for research agents, how AgentPages uses Tavily
+- **Astro Framework** — islands architecture, file-based routing, .astro component format, build output, Content Collections, key integrations, performance characteristics
+
+**Sources consulted:**
+- https://github.com/tavily-ai/tavily-python (README — full API documentation)
+- https://github.com/withastro/astro (README)
+- https://github.com/idorozin/AgentPages (README — cross-reference for Tavily setup)
+- https://github.com/github/gh-aw (README — cross-reference for Tavily MCP integration)
+
+**Changes made:**
+- Created `agent/knowledge/tavily-api.md`
+- Created `agent/knowledge/astro-framework.md`
+- Updated `agent/knowledge/_index.md` with 2 new topics
+- Added 2 entries to `website/src/data/site.json` topics array
+- Created `website/src/pages/topics/tavily-api.astro`
+- Created `website/src/pages/topics/astro-framework.astro`
+- Added nav links to `website/src/layouts/Base.astro`
+- Built site to `docs/`
+
+**Issues:** Some external URLs (tavily.com, docs.astro.build, Wikipedia) were unreachable due to network isolation. Research was conducted from GitHub repository READMEs which provided comprehensive coverage.
+
 
 **Topics researched:** 3 (initial run)
 - **How AgentPages Works** — core loop, file structure, auto-merge workflow, research prioritization

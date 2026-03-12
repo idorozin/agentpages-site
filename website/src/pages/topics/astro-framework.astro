@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/withastro/astro", title: "Astro GitHub Repository" },
+  { url: "https://astro.build", title: "Astro — Build the web you want" },
+];
+---
+
+<Base title="Astro Framework — AgentPages" description="Why AgentPages uses Astro: the islands architecture, file-based routing, zero-JS-by-default, and how the AI agent updates the site.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Astro Framework</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>Astro is the static site generator that powers the AgentPages website layer. It's chosen deliberately: Astro's "islands" architecture, zero-JS-by-default philosophy, and file-based routing make it ideal for AI-generated content sites that need to be fast, simple, and git-friendly.</p>
+
+      <h2>Why Astro for AgentPages</h2>
+      <p>AgentPages needed a static site generator that an AI agent could update programmatically. The requirements:</p>
+      <ul>
+        <li><strong>Simple file structure</strong> — one file per page, predictable output</li>
+        <li><strong>Fast builds</strong> — agent commits shouldn't take minutes to build</li>
+        <li><strong>No client-side JavaScript by default</strong> — research sites don't need React SPA complexity</li>
+        <li><strong>Good GitHub Pages support</strong> — static output goes straight into <code>docs/</code></li>
+        <li><strong>Readable output</strong> — pages are <code>.astro</code> files the agent can read and write</li>
+      </ul>
+      <p>Astro ticks all of these. A full AgentPages site builds in seconds.</p>
+
+      <h2>The Islands Architecture</h2>
+      <p>Astro's core innovation is <strong>partial hydration</strong> via "islands." By default, every Astro component renders to pure HTML at build time — zero JavaScript is shipped to the browser.</p>
+      <p>If you need interactivity, you opt specific components in with <code>client:*</code> directives:</p>
+      <pre><code>&lt;!-- Renders to static HTML — no JS shipped --&gt;
+&lt;MyComponent /&gt;
+
+&lt;!-- Hydrates on page load --&gt;
+&lt;InteractiveWidget client:load /&gt;
+
+&lt;!-- Hydrates only when visible --&gt;
+&lt;Chart client:visible /&gt;</code></pre>
+      <p>The result: <strong>content-heavy sites load extremely fast</strong> because there's no JavaScript framework overhead. For a research knowledge base, this is the right trade-off.</p>
+
+      <h2>File-Based Routing</h2>
+      <p>Astro uses the file system as the router. Files in <code>src/pages/</code> become URL paths:</p>
+      <pre><code>src/pages/
+├── index.astro          →  /
+└── topics/
+    ├── how-agentpages-works.astro  →  /topics/how-agentpages-works
+    └── tavily-api.astro            →  /topics/tavily-api</code></pre>
+      <p>AgentPages exploits this directly: when the agent discovers a new topic, it creates a new <code>.astro</code> file in <code>src/pages/topics/</code> and adds it to <code>site.json</code>. No routing configuration needed.</p>
+
+      <h2>Astro Components (.astro files)</h2>
+      <p>An <code>.astro</code> file has two sections: a <strong>frontmatter script</strong> (JavaScript/TypeScript, runs at build time) and an <strong>HTML template</strong>:</p>
+      <pre><code>---
+// Frontmatter — runs at build time only
+import Layout from '../layouts/Base.astro';
+const title = "My Page";
+---
+
+&lt;!-- Template — the actual HTML output --&gt;
+&lt;Layout title={'{'}title{'}'}&gt;
+  &lt;h1&gt;{'{'}title{'}'}&lt;/h1&gt;
+&lt;/Layout&gt;</code></pre>
+      <p>The frontmatter runs <strong>once at build time</strong> — you can fetch data, import files, run arbitrary Node.js code. None of it is included in the browser bundle.</p>
+
+      <h2>Build and Output</h2>
+      <p>Astro builds to plain HTML/CSS/JS. AgentPages configures output to <code>docs/</code> (GitHub Pages convention) in <code>astro.config.mjs</code>:</p>
+      <pre><code>// website/astro.config.mjs
+import {'{' } defineConfig {'}'} from 'astro/config';
+
+export default defineConfig({'{'}
+  outDir: '../docs',
+  site: 'https://USERNAME.github.io',
+  base: '/REPO_NAME',
+{'}'});</code></pre>
+      <p>Common build commands:</p>
+      <pre><code># Build the site (agent does this each run)
+cd website && npx astro build
+
+# Preview the build locally
+npx astro preview
+
+# Dev server with hot reload (for local development)
+npx astro dev</code></pre>
+
+      <h2>Content Collections</h2>
+      <p>For larger knowledge bases, Astro's <strong>Content Collections</strong> feature provides type-safe access to markdown files. You define a schema and Astro validates your content at build time — catching missing frontmatter fields before they reach the published site.</p>
+      <p>AgentPages currently uses a simpler approach (direct <code>.astro</code> files + <code>site.json</code>), but Content Collections is a natural upgrade path as the knowledge base grows.</p>
+
+      <h2>Key Integrations</h2>
+      <table>
+        <thead>
+          <tr><th>Integration</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>@astrojs/sitemap</code></td><td>Auto-generate sitemap.xml for SEO</td></tr>
+          <tr><td><code>@astrojs/rss</code></td><td>Generate RSS feeds for topic updates</td></tr>
+          <tr><td><code>@astrojs/mdx</code></td><td>Use MDX (Markdown + JSX) for richer content</td></tr>
+          <tr><td><code>@astrojs/react</code></td><td>Use React components where needed</td></tr>
+        </tbody>
+      </table>
+      <p>For a simple research site, none of these are required — the base Astro install is sufficient.</p>
+
+      <h2>Performance</h2>
+      <p>Astro sites routinely score 100/100 on Lighthouse because they ship minimal JavaScript. For a research knowledge base, the practical benefits are:</p>
+      <ul>
+        <li><strong>Instant navigation</strong> — no client-side routing overhead</li>
+        <li><strong>No hydration cost</strong> — content is server-rendered HTML</li>
+        <li><strong>Small bundles</strong> — no framework runtime to download</li>
+        <li><strong>Great SEO</strong> — search engines get fully rendered HTML</li>
+      </ul>
+      <p>This makes Astro an excellent choice when GitHub Pages is your deployment target and your content is predominantly text and tables — exactly the AgentPages use case.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>
