@@ -4,7 +4,34 @@
 
 ---
 
-## Run 3 — 2026-03-12
+## Run 4 — 2026-03-12
+
+**Topics researched:** 2
+- **AI Engine Comparison** — detailed comparison of all four gh-aw engines (Copilot, Claude, Codex, Gemini), configuration options, model tiers, cost optimization, version pinning, engine switching
+- **Continuous AI Patterns** — GitHub Next's Continuous AI concept, Peli's Agent Factory 19-workflow categories, real merge rate metrics, multi-agent coordination patterns, design principles, AgentPages as a Continuous AI system
+
+**Sources consulted:**
+- https://github.github.com/gh-aw/reference/engines/ (AI Engines reference page)
+- https://github.github.com/gh-aw/llms-full.txt (complete documentation)
+- https://github.github.com/gh-aw/_llms-txt/agentic-workflows.txt (Peli's Agent Factory 19-part blog series)
+- https://github.com/github/gh-aw (README)
+- https://github.com/idorozin/AgentPages (README — engine configuration examples)
+
+**Changes made:**
+- Created `agent/knowledge/ai-engine-comparison.md`
+- Created `agent/knowledge/continuous-ai-patterns.md`
+- Updated `agent/knowledge/_index.md` with 2 new topics (total: 9)
+- Added 2 entries to `website/src/data/site.json` topics array
+- Created `website/src/pages/topics/ai-engine-comparison.astro`
+- Created `website/src/pages/topics/continuous-ai-patterns.astro`
+- Added nav links (Engines, Continuous AI) to `website/src/layouts/Base.astro`
+- Built site to `docs/` — 10 pages total
+
+**Issues:** Node.js v20 not supported by Astro 6; used v22 from hostedtoolcache. Build succeeded.
+
+---
+
+
 
 **Topics researched:** 2
 - **Use Cases & Examples** — categories of sites built with AgentPages, live examples (project docs site, Iran conflict tracker), anti-patterns
