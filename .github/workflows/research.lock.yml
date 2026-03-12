@@ -22,7 +22,7 @@
 # For more information: https://github.github.com/gh-aw/introduction/overview/
 #
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"3d12b449696d25bb77f9eda9ef78682ef869e4acbf8c51770d501dcbab9017ca","compiler_version":"v0.57.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"7b69761ec64771e5ff87fecc0477745c09b7fc59e3651afa25cf20df42eb1145","compiler_version":"v0.57.2","strict":true}
 
 name: "AgentPages Research Workflow"
 "on":
@@ -57,7 +57,7 @@ jobs:
         env:
           GH_AW_INFO_ENGINE_ID: "copilot"
           GH_AW_INFO_ENGINE_NAME: "GitHub Copilot CLI"
-          GH_AW_INFO_MODEL: "gpt-5"
+          GH_AW_INFO_MODEL: "claude-sonnet-4-6"
           GH_AW_INFO_VERSION: ""
           GH_AW_INFO_AGENT_VERSION: "latest"
           GH_AW_INFO_CLI_VERSION: "v0.57.2"
@@ -777,7 +777,7 @@ jobs:
         env:
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-          COPILOT_MODEL: gpt-5
+          COPILOT_MODEL: claude-sonnet-4-6
           GH_AW_MCP_CONFIG: /home/runner/.copilot/mcp-config.json
           GH_AW_PHASE: agent
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
@@ -1015,7 +1015,7 @@ jobs:
         env:
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-          COPILOT_MODEL: gpt-5
+          COPILOT_MODEL: claude-sonnet-4-6
           GH_AW_PHASE: detection
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
           GH_AW_VERSION: v0.57.2
@@ -1202,7 +1202,7 @@ jobs:
     env:
       GH_AW_CALLER_WORKFLOW_ID: "${{ github.repository }}/research"
       GH_AW_ENGINE_ID: "copilot"
-      GH_AW_ENGINE_MODEL: "gpt-5"
+      GH_AW_ENGINE_MODEL: "claude-sonnet-4-6"
       GH_AW_WORKFLOW_ID: "research"
       GH_AW_WORKFLOW_NAME: "AgentPages Research Workflow"
     outputs:
