@@ -1,0 +1,154 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/tavily-ai/tavily-python", title: "tavily-python GitHub Repository" },
+  { url: "https://tavily.com/", title: "Tavily — AI Search Engine for Agents" },
+];
+---
+
+<Base title="Tavily API — AgentPages" description="How Tavily powers AI research agents: search, extract, crawl, and best practices for keeping your agent within the free tier.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Tavily API</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>Tavily is the search and research engine built specifically for AI agents. Where a general search API returns a list of links, Tavily returns clean, structured data that LLMs can immediately use. It's the web search backbone of AgentPages.</p>
+
+      <h2>Why Tavily for AI Agents</h2>
+      <p>Standard search APIs (SerpAPI, Bing, Google) return raw HTML or 10 blue links — formats designed for human browsers, not AI pipelines. Tavily pre-processes results into clean text summaries and structured JSON, ready to be injected into a prompt context window.</p>
+      <ul>
+        <li>Results are pre-cleaned and summarized (no HTML parsing required)</li>
+        <li>Supports <strong>RAG context generation</strong> in a single API call</li>
+        <li>Optimized for recency — good at finding current information</li>
+        <li>Free tier: 1,000 API credits/month</li>
+      </ul>
+
+      <h2>API Capabilities</h2>
+
+      <h3>1. Search</h3>
+      <p>The primary endpoint. Returns cleaned content snippets for a query.</p>
+      <pre><code>from tavily import TavilyClient
+
+client = TavilyClient(api_key="tvly-...")
+response = client.search("GitHub Agentic Workflows 2026")
+# Returns: list of {'{'}title, url, content, score{'}'}</code></pre>
+      <p><strong>Key parameters:</strong></p>
+      <ul>
+        <li><code>search_depth</code>: <code>"basic"</code> (fast, 1 credit) or <code>"advanced"</code> (deeper, 2 credits)</li>
+        <li><code>include_answer</code>: Adds an AI-synthesized direct answer</li>
+        <li><code>topic</code>: <code>"general"</code> or <code>"news"</code> (for recency-focused search)</li>
+        <li><code>exact_match</code>: <code>True</code> to require exact phrase matching</li>
+        <li><code>max_results</code>: Number of results (default 5, max 20)</li>
+      </ul>
+
+      <h3>2. Extract</h3>
+      <p>Fetches and cleans the full content from up to 20 specific URLs. Ideal for deep-reading promising sources identified by Search.</p>
+      <pre><code>urls = [
+    "https://github.com/github/gh-aw",
+    "https://github.com/idorozin/AgentPages",
+]
+response = client.extract(urls=urls)
+for r in response["results"]:
+    print(r["url"], r["raw_content"][:500])</code></pre>
+
+      <h3>3. QnA Search</h3>
+      <p>Returns a concise, direct answer to a question — not a list of sources. Perfect for injecting into a larger prompt as a quick fact.</p>
+      <pre><code>answer = client.qna_search("What is AgentPages?")
+# Returns: "AgentPages is an open-source template that turns..."</code></pre>
+
+      <h3>4. Crawl (invite-only)</h3>
+      <p>Traverses an entire website starting from a base URL, following links up to a configurable depth. Useful for indexing documentation sites or blogs.</p>
+
+      <h3>5. Map</h3>
+      <p>Returns only the URL structure of a site (like a sitemap) without fetching content. Use it to discover URLs before deciding what to extract.</p>
+
+      <h3>6. Research (async)</h3>
+      <p>Creates a comprehensive research report on any topic. Tavily autonomously gathers sources, analyzes them, and produces a structured output — their highest-level abstraction.</p>
+
+      <h2>RAG Context Generation</h2>
+      <p>Tavily's <code>get_search_context()</code> is purpose-built for Retrieval-Augmented Generation. It returns a pre-chunked context string ready for direct injection into a prompt:</p>
+      <pre><code>context = client.get_search_context(
+    query="latest developments in GitHub agentic workflows",
+    max_tokens=4000
+)
+# Returns a string you can drop straight into your system prompt</code></pre>
+
+      <h2>Credits and Pricing</h2>
+      <table>
+        <thead>
+          <tr><th>Operation</th><th>Credits Used</th><th>Best For</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>search</code> (basic)</td><td>1 credit</td><td>Quick lookups, recent news</td></tr>
+          <tr><td><code>search</code> (advanced)</td><td>2 credits</td><td>Deep research, complex queries</td></tr>
+          <tr><td><code>extract</code></td><td>1 credit per URL</td><td>Full page reading</td></tr>
+          <tr><td><code>qna_search</code></td><td>1 credit</td><td>Direct question answering</td></tr>
+        </tbody>
+      </table>
+      <p>The free tier provides <strong>1,000 credits/month</strong>. AgentPages limits itself to ~5 search queries per run, making even moderate-frequency runs viable on the free plan.</p>
+
+      <h2>Best Practices for Research Agents</h2>
+      <ol>
+        <li><strong>Lead with Search, follow with Extract</strong> — Use Search to identify the 2–3 best sources, then Extract to read them fully. Don't extract every result.</li>
+        <li><strong>Use <code>topic="news"</code> for current events</strong> — The general topic indexes all content; news topic biases toward recency.</li>
+        <li><strong><code>include_answer=True</code> for quick facts</strong> — Saves a follow-up call when you just need a summary.</li>
+        <li><strong>Chunk your queries</strong> — Multiple specific queries outperform one broad query. <em>"Tavily API pricing 2026"</em> beats <em>"tell me about Tavily"</em>.</li>
+        <li><strong>Respect credit limits</strong> — With 1,000 free credits, aim for ≤5 search calls per agent run.</li>
+      </ol>
+
+      <h2>How AgentPages Uses Tavily</h2>
+      <p>In AgentPages, Tavily is declared in the <code>gh-aw</code> workflow frontmatter:</p>
+      <pre><code>tools:
+  - tavily</code></pre>
+      <p>The <code>gh-aw</code> platform manages API key injection (<code>TAVILY_API_KEY</code> secret) and provides the Tavily MCP server to the AI agent. The agent calls search and extract tools as needed during each research run. Get your free API key at <a href="https://tavily.com/" target="_blank" rel="noopener noreferrer">tavily.com ↗</a>.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>

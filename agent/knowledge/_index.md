@@ -7,3 +7,5 @@
 | How AgentPages Works | how-agentpages-works.md | 2026-03-12 | current |
 | GitHub Agentic Workflows (gh-aw) | github-agentic-workflows.md | 2026-03-12 | current |
 | Getting Started with AgentPages | getting-started.md | 2026-03-12 | current |
+| Tavily API | tavily-api.md | 2026-03-12 | current |
+| Astro Framework | astro-framework.md | 2026-03-12 | current |
