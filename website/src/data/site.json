@@ -4,6 +4,18 @@
   "last_updated": "2026-03-12",
   "topics": [
     {
+      "slug": "use-cases",
+      "title": "Use Cases & Examples",
+      "summary": "What kinds of research sites you can build with AgentPages: project docs, news trackers, competitive intelligence, domain knowledge bases, and personal learning journals.",
+      "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "mcp",
+      "title": "Model Context Protocol (MCP)",
+      "summary": "The open standard connecting AI agents to tools and services. How gh-aw uses MCP to give agents access to GitHub, Tavily, Notion, and hundreds of other integrations.",
+      "last_updated": "2026-03-12"
+    },
+    {
       "slug": "tavily-api",
       "title": "Tavily API",
       "summary": "The AI-native search engine powering AgentPages research. Learn about Search, Extract, QnA, Crawl, and how to stay within the free tier's 1,000 credits/month.",

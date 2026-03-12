@@ -1,0 +1,193 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/modelcontextprotocol/modelcontextprotocol", title: "Model Context Protocol — GitHub Repository" },
+  { url: "https://github.com/modelcontextprotocol/servers", title: "MCP Reference Servers" },
+  { url: "https://github.github.com/gh-aw/guides/mcps/", title: "GitHub Agentic Workflows — MCP Guide" },
+  { url: "https://github.github.com/gh-aw/introduction/how-they-work/", title: "GitHub Agentic Workflows — How They Work" },
+];
+---
+
+<Base title="Model Context Protocol (MCP) — AgentPages" description="What MCP is, why it matters for AI agents, and how GitHub Agentic Workflows uses it to connect the agent to tools and services.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Model Context Protocol (MCP)</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>Model Context Protocol (MCP) is an open standard for connecting AI agents to external tools, data sources, and services. It is the "glue" that lets AI models like Claude or Copilot securely call external APIs, read files, query databases, and use custom tools — without bespoke integrations for every combination.</p>
+
+      <h2>Why MCP Matters</h2>
+      <p>Before MCP, connecting an AI to a tool meant writing a custom integration for every AI model × every tool combination. MCP standardizes this: write one MCP server per tool, and any MCP-compatible AI agent can use it.</p>
+      <p>This is directly analogous to what USB did for hardware peripherals — one standard port, many devices.</p>
+
+      <h2>Core Concepts</h2>
+
+      <h3>MCP Server</h3>
+      <p>A process that exposes <strong>tools</strong>, <strong>resources</strong>, and <strong>prompts</strong> over the MCP protocol. Examples:</p>
+      <ul>
+        <li>A filesystem server exposing <code>read_file</code>, <code>write_file</code></li>
+        <li>A GitHub server exposing <code>create_issue</code>, <code>search_code</code></li>
+        <li>A Tavily server exposing <code>search</code>, <code>extract</code></li>
+      </ul>
+
+      <h3>MCP Client</h3>
+      <p>The AI agent (or the runtime hosting the agent) that calls MCP server tools. In GitHub Agentic Workflows, the gh-aw runtime acts as the MCP client.</p>
+
+      <h3>Transport Types</h3>
+      <ul>
+        <li><strong>stdio</strong> — local process with stdin/stdout (fastest, most common for local tools)</li>
+        <li><strong>HTTP/SSE</strong> — remote HTTP endpoint (cloud APIs, shared infrastructure)</li>
+        <li><strong>Docker containers</strong> — containerized MCP servers with env vars and volume mounts</li>
+      </ul>
+
+      <h2>MCP in GitHub Agentic Workflows</h2>
+      <p>GitHub Agentic Workflows uses MCP as its primary tool integration mechanism. Every tool the agent can call — from GitHub operations to external APIs — is exposed via MCP.</p>
+
+      <h3>Adding Custom MCP Servers</h3>
+      <p>Custom MCP servers are declared in the workflow frontmatter under <code>mcp-servers:</code>:</p>
+      <pre><code>mcp-servers:
+  notion:
+    container: "mcp/notion"
+    env:
+      NOTION_TOKEN: "$&#123;&#123; secrets.NOTION_TOKEN &#125;&#125;"
+    allowed:
+      - "search_pages"
+      - "get_page"
+  deepwiki:
+    url: "https://mcp.deepwiki.com/sse"
+    allowed: ["*"]</code></pre>
+
+      <h3>Adding Servers from the Registry</h3>
+      <pre><code># Browse available servers
+gh aw mcp add
+
+# Add a specific server
+gh aw mcp add my-workflow makenotion/notion-mcp-server</code></pre>
+
+      <h3>Tool Filtering with <code>allowed:</code></h3>
+      <p>For security, restrict which tools an MCP server exposes to the agent:</p>
+      <pre><code>mcp-servers:
+  postgres:
+    container: "mcp/postgres"
+    allowed: ["query"]  # read-only; blocks writes</code></pre>
+      <p>Use <code>["*"]</code> to allow all tools (only for trusted, well-understood servers).</p>
+
+      <h2>Official Reference Servers</h2>
+      <table>
+        <thead>
+          <tr><th>Server</th><th>What It Does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Filesystem</strong></td><td>Secure file operations with configurable access</td></tr>
+          <tr><td><strong>Git</strong></td><td>Read, search, and manipulate Git repositories</td></tr>
+          <tr><td><strong>Fetch</strong></td><td>Web content fetching and conversion for LLMs</td></tr>
+          <tr><td><strong>Memory</strong></td><td>Knowledge graph-based persistent memory</td></tr>
+          <tr><td><strong>Sequential Thinking</strong></td><td>Dynamic problem-solving through thought sequences</td></tr>
+          <tr><td><strong>Time</strong></td><td>Time and timezone conversion</td></tr>
+        </tbody>
+      </table>
+      <p>A full registry of community MCP servers is at <a href="https://registry.modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">registry.modelcontextprotocol.io ↗</a>.</p>
+
+      <h2>Pre-configured MCP Servers in gh-aw</h2>
+      <p>The <code>gh-aw</code> repository ships with ready-to-import MCP configurations in <code>.github/workflows/shared/mcp/</code>:</p>
+      <ul>
+        <li><strong>Tavily</strong> — AI-native web search and extraction</li>
+        <li><strong>Jupyter</strong> — Execute code and manage notebooks</li>
+        <li><strong>Notion</strong> — Read/write Notion pages and databases</li>
+        <li><strong>Slack</strong> — Channel management and messaging</li>
+        <li><strong>Sentry</strong> — Error tracking and issue analysis</li>
+        <li><strong>DeepWiki</strong> — GitHub repository documentation search</li>
+        <li><strong>Microsoft Docs</strong> — Search official Microsoft documentation</li>
+        <li>Azure, DataDog, Brave Search, MarkItDown, and more</li>
+      </ul>
+
+      <h2>MCP SDKs</h2>
+      <table>
+        <thead>
+          <tr><th>Language</th><th>SDK Repository</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>TypeScript</td><td><code>modelcontextprotocol/typescript-sdk</code></td></tr>
+          <tr><td>Python</td><td><code>modelcontextprotocol/python-sdk</code></td></tr>
+          <tr><td>Go</td><td><code>modelcontextprotocol/go-sdk</code></td></tr>
+          <tr><td>Java</td><td><code>modelcontextprotocol/java-sdk</code></td></tr>
+          <tr><td>Rust</td><td><code>modelcontextprotocol/rust-sdk</code></td></tr>
+          <tr><td>C#</td><td><code>modelcontextprotocol/csharp-sdk</code></td></tr>
+          <tr><td>Kotlin, PHP, Ruby, Swift</td><td>Official SDKs available</td></tr>
+        </tbody>
+      </table>
+
+      <h2>MCP and AgentPages</h2>
+      <p>AgentPages uses MCP via gh-aw to access:</p>
+      <ul>
+        <li><strong>Tavily MCP</strong> — web search and URL extraction for research</li>
+        <li><strong>GitHub MCP (built-in)</strong> — creating PRs, committing files, reading repo contents</li>
+        <li><strong>Safe Outputs MCP</strong> — the sanitized write layer for GitHub operations</li>
+      </ul>
+      <p>When you extend AgentPages with custom MCP servers, declare them in <code>.github/workflows/research.md</code> and recompile with <code>gh aw compile</code>.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .content th, .content td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+  }
+  .content th {
+    background: var(--bg-surface);
+    font-weight: 600;
+  }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>

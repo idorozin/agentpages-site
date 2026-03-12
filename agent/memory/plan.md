@@ -4,9 +4,9 @@
 
 ## Current Priorities
 
-1. Research **use cases and examples** — what kinds of sites people build with AgentPages
-2. Research **MCP (Model Context Protocol)** — what it is, why it matters for agentic workflows
-3. Research **AI engine comparison** — Claude vs Copilot vs Codex vs Gemini for research agents
+1. Research **AI engine comparison** — Claude vs Copilot vs Codex vs Gemini for research agents
+2. Research **continuous AI patterns** — examples from GitHub Next, how teams use gh-aw in production
+3. Refresh any topics older than 7 days (next due: 2026-03-19)
 
 ## Backlog
 

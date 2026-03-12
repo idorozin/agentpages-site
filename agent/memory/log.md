@@ -4,6 +4,35 @@
 
 ---
 
+## Run 3 — 2026-03-12
+
+**Topics researched:** 2
+- **Use Cases & Examples** — categories of sites built with AgentPages, live examples (project docs site, Iran conflict tracker), anti-patterns
+- **Model Context Protocol (MCP)** — what MCP is, transport types (stdio/HTTP/Docker), MCP in gh-aw, official reference servers, SDKs, pre-configured servers, tool filtering
+
+**Sources consulted:**
+- https://github.com/idorozin/AgentPages (README — live examples, use cases)
+- https://github.com/modelcontextprotocol/modelcontextprotocol (README)
+- https://github.com/modelcontextprotocol/servers (reference servers list)
+- https://github.github.com/gh-aw/guides/mcps/ (MCP configuration guide)
+- https://github.github.com/gh-aw/introduction/how-they-work/ (MCP in workflows)
+- https://github.github.com/gh-aw/reference/engines/ (engine reference)
+
+**Changes made:**
+- Created `agent/knowledge/use-cases.md`
+- Created `agent/knowledge/mcp.md`
+- Updated `agent/knowledge/_index.md` with 2 new topics (total: 7)
+- Added 2 entries to `website/src/data/site.json` topics array
+- Created `website/src/pages/topics/use-cases.astro`
+- Created `website/src/pages/topics/mcp.astro`
+- Added nav links (Use Cases, MCP) to `website/src/layouts/Base.astro`
+- Built site to `docs/`
+
+**Issues:** Some URLs (modelcontextprotocol.io, githubnext.com) were unreachable due to network isolation. MCP documentation was researched via GitHub repos and gh-aw MCP guide.
+
+---
+
+
 ## Run 2 — 2026-03-12
 
 **Topics researched:** 2

@@ -1,0 +1,156 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.com/idorozin/AgentPages", title: "AgentPages GitHub Repository" },
+  { url: "https://github.github.com/gh-aw/introduction/how-they-work/", title: "GitHub Agentic Workflows — How They Work" },
+];
+---
+
+<Base title="Use Cases & Examples — AgentPages" description="What kinds of research sites you can build with AgentPages: news trackers, knowledge bases, competitive intelligence, and more.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">AgentPages Use Cases &amp; Examples</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>AgentPages is a flexible template for any research or knowledge-tracking site that benefits from automated, recurring updates. Below are the main categories of use cases and real examples already live in the wild.</p>
+
+      <h2>Live Examples</h2>
+      <p>The AgentPages README lists two known public deployments:</p>
+      <table>
+        <thead>
+          <tr><th>Site</th><th>Topic</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://idorozin.me/agentpages-site/" target="_blank" rel="noopener noreferrer">idorozin.me/agentpages-site ↗</a></td>
+            <td>AgentPages project documentation — maintained by an AgentPages agent</td>
+          </tr>
+          <tr>
+            <td><a href="https://idorozin.me/iran-monitor" target="_blank" rel="noopener noreferrer">idorozin.me/iran-monitor ↗</a></td>
+            <td>Live conflict tracker — US &amp; Israel vs Iran, ongoing since Feb 28, 2026</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Use Case Categories</h2>
+
+      <h3>1. Project Documentation Sites</h3>
+      <p>Auto-maintained documentation for an open-source project or internal tool. Documentation goes stale — with AgentPages, the agent researches the project's latest releases, community Q&amp;A, and ecosystem changes, then updates the site automatically.</p>
+      <ul>
+        <li>Track breaking changes in a library's changelog</li>
+        <li>Monitor Stack Overflow questions about your project</li>
+        <li>Aggregate blog posts mentioning your tool</li>
+      </ul>
+
+      <h3>2. Live News &amp; Conflict Trackers</h3>
+      <p>Sites that monitor real-world events as they unfold. The 12-hour cron means the agent checks for new developments twice a day, with Tavily search finding fresh sources automatically.</p>
+      <ul>
+        <li>Geopolitical conflict timelines</li>
+        <li>Tech company news trackers</li>
+        <li>Regulatory change monitors (GDPR, AI Act, etc.)</li>
+      </ul>
+
+      <h3>3. Competitive Intelligence</h3>
+      <p>A research hub tracking competitors, pricing, and feature launches. Set <code>user/profile.md</code> to focus on competitors and the agent researches product updates, job postings, and announcements on each run.</p>
+      <ul>
+        <li>SaaS competitor feature comparison</li>
+        <li>AI model benchmark tracking</li>
+        <li>Startup funding round monitors</li>
+      </ul>
+
+      <h3>4. Domain Knowledge Bases</h3>
+      <p>A deep-dive knowledge base on a technical or academic domain. In fast-moving fields (AI, biotech, crypto), AgentPages keeps the knowledge base fresh with minimal effort.</p>
+      <ul>
+        <li>AI research paper summaries</li>
+        <li>Quantum computing developments</li>
+        <li>Biomedical research trackers</li>
+      </ul>
+
+      <h3>5. Personal Learning Journals</h3>
+      <p>A public "learning in public" site where the agent tracks topics you're studying. Define what you're learning in <code>user/profile.md</code> and the agent builds a structured knowledge base as you go.</p>
+      <ul>
+        <li>Learning Rust — track blog posts, best practices, ecosystem crates</li>
+        <li>Following Web3 developments</li>
+        <li>A personal finance research hub</li>
+      </ul>
+
+      <h3>6. Developer Ecosystem Monitors</h3>
+      <p>A site that watches a specific developer ecosystem (a framework, cloud provider, or language). Ecosystems evolve constantly — the agent tracks release notes, community discussions, and tutorials.</p>
+      <ul>
+        <li>Astro framework updates tracker</li>
+        <li>AWS service announcement monitor</li>
+        <li>Python packaging ecosystem news</li>
+      </ul>
+
+      <h2>What Makes a Good AgentPages Use Case?</h2>
+      <p>The ideal use case has these characteristics:</p>
+      <ul>
+        <li><strong>Recurring updates needed</strong> — the topic changes over time</li>
+        <li><strong>Web-searchable information</strong> — sources exist on the public web (Tavily can find them)</li>
+        <li><strong>Structured enough for pages</strong> — information can be organized into discrete topics</li>
+        <li><strong>Developer audience or personal use</strong> — the current template is developer-friendly by default</li>
+      </ul>
+
+      <h2>Anti-Patterns</h2>
+      <p>AgentPages is <em>not</em> the right fit for:</p>
+      <ul>
+        <li><strong>Real-time data</strong> (stock prices, live sports scores) — 12-hour updates aren't fast enough</li>
+        <li><strong>Proprietary internal data</strong> — the agent researches the public web via Tavily</li>
+        <li><strong>High-volume content farms</strong> — Tavily's free tier is 1,000 credits/month</li>
+      </ul>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .content th, .content td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+  }
+  .content th {
+    background: var(--bg-surface);
+    font-weight: 600;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+</style>

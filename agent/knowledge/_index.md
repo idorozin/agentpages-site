@@ -9,3 +9,5 @@
 | Getting Started with AgentPages | getting-started.md | 2026-03-12 | current |
 | Tavily API | tavily-api.md | 2026-03-12 | current |
 | Astro Framework | astro-framework.md | 2026-03-12 | current |
+| Use Cases & Examples | use-cases.md | 2026-03-12 | current |
+| Model Context Protocol (MCP) | mcp.md | 2026-03-12 | current |
