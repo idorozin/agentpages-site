@@ -4,9 +4,9 @@
 
 ## Current Priorities
 
-1. Refresh any topics older than 7 days (next due: 2026-03-19)
-2. Research **community & ecosystem** — projects built on AgentPages, related agentic workflow tools
-3. Research **advanced gh-aw** — custom MCP scripts, environment variables, cross-repo patterns
+1. Refresh any topics older than 7 days
+2. Research **GitHub Pages setup and deployment** - custom domains, troubleshooting, performance optimization
+3. Research **Content Collections for large knowledge bases** - scaling AgentPages for >20 topics
 
 ## Backlog
 
@@ -15,3 +15,6 @@
 - Cost comparison across AI engines (detailed breakdown with real numbers)
 - Security deep dive: AWF firewall configuration, MCP gateway setup
 - AgentPages vs. alternatives (comparison with other automated content tools)
+- Real-world AgentPages case studies and success stories
+- Building domain-specific MCP servers for specialized research
+- Integration patterns: Slack webhooks, Notion sync, Obsidian vaults

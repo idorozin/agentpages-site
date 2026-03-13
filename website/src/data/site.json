@@ -56,6 +56,18 @@
       "title": "Continuous AI Patterns",
       "summary": "The emerging paradigm of systematic, automated AI applied to software collaboration. Real patterns and metrics from GitHub Next's 19-workflow agent factory.",
       "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "advanced-gw-configuration",
+      "title": "Advanced gh-aw Configuration",
+      "summary": "Power-user patterns: custom MCP servers, environment variable strategies, multi-agent pipelines, debugging techniques, rate limiting, and production deployment considerations.",
+      "last_updated": "2026-03-13"
+    },
+    {
+      "slug": "community-ecosystem",
+      "title": "AgentPages Community & Ecosystem",
+      "summary": "The growing ecosystem of autonomous research tools: gh-aw, Tavily, Astro, MCP servers, and real-world patterns from documentation automation to competitive intelligence.",
+      "last_updated": "2026-03-13"
     }
   ]
 }
