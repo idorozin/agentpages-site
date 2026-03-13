@@ -1,0 +1,216 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://githubnext.com/projects/continuous-ai", title: "Continuous AI — GitHub Next" },
+  { url: "https://github.github.com/gh-aw/blog/2026-01-12-welcome-to-pelis-agent-factory/", title: "Peli's Agent Factory — GitHub Agentic Workflows Blog" },
+  { url: "https://github.github.com/gh-aw/_llms-txt/agentic-workflows.txt", title: "Agentic Workflows Blog Series — gh-aw Documentation" },
+];
+---
+
+<Base title="Continuous AI Patterns — AgentPages" description="The emerging paradigm of systematic, automated AI for software collaboration. Real patterns and metrics from GitHub Next's 19-workflow agent factory.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Continuous AI Patterns</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p><strong>Continuous AI</strong> is a concept developed by GitHub Next: the systematic, automated application of AI to software collaboration. Just as Continuous Integration made automated testing routine, Continuous AI makes AI-enriched automation routine — running on schedules, triggers, and events, improving repositories incrementally over time.</p>
+
+      <p>AgentPages is itself a Continuous AI system: an agent that continuously researches, writes, and publishes — improving its knowledge base with every run.</p>
+
+      <h2>The Core Insight: Incremental Beats Heroic</h2>
+      <p>Small, continuous improvements compound. Rather than running a massive AI refactor quarterly, you run small focused agents daily. Each agent never takes a day off, never gets tired, and never lets issues accumulate.</p>
+      <blockquote>
+        <em>"Code quality is not a destination, it's a continuous practice."</em> — Peli's Agent Factory
+      </blockquote>
+
+      <h2>Peli's Agent Factory: Real-World Results</h2>
+      <p>GitHub Next built and operated a real "agent factory" on the <code>github/gh-aw</code> repository — 19 categories of production workflows doing actual work. Real agents. Measured merge rates. Tracked causal chains.</p>
+      <p>Key finding: <strong>AI agents are most powerful when specialized, well-coordinated, and designed for their specific context.</strong></p>
+
+      <h2>Pattern 1: Issue Triage</h2>
+      <p>The "hello world" of Continuous AI. When a new issue opens, the agent reads its content, researches the codebase, labels the issue, and leaves an explanatory comment.</p>
+      <pre><code>---
+on:
+  issue:
+    types: [opened, reopened]
+permissions:
+  issues: read
+tools:
+  github:
+    toolsets: [issues, labels]
+safe-outputs:
+  add-labels:
+    allowed: [bug, feature, enhancement, documentation, question]
+  add-comment: {}
+---
+
+Analyze each unlabeled issue, apply the most appropriate label,
+and comment explaining the label choice to the issue author.</code></pre>
+
+      <h2>Pattern 2: Continuous Simplicity</h2>
+      <p>Agents that run daily, hunting for complexity and proposing simpler alternatives. While developers race ahead building features, cleanup agents trail behind sweeping up technical debt.</p>
+      <ul>
+        <li><strong>Duplicate Code Detector:</strong> 76 merged PRs out of 96 proposed — <strong>79% merge rate</strong></li>
+        <li><strong>Automatic Code Simplifier:</strong> Continuously finds over-nested code and repeated patterns</li>
+      </ul>
+      <p>Fast AI-assisted development generates code faster than humans can manually clean up. Continuous simplicity agents fill this gap.</p>
+
+      <h2>Pattern 3: Continuous Documentation</h2>
+      <p>Keeping docs accurate as code evolves — solved incrementally.</p>
+      <table>
+        <thead>
+          <tr><th>Workflow</th><th>Merge Rate</th><th>What It Does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Daily Documentation Updater</td><td><strong>96%</strong> (57/59 PRs)</td><td>Reviews and updates docs for accuracy</td></tr>
+          <tr><td>Documentation Unbloat</td><td><strong>85%</strong> (88/103 PRs)</td><td>Reduces verbosity</td></tr>
+          <tr><td>Documentation Noob Tester</td><td><strong>43%</strong> (9 PRs)</td><td>Tests docs as a new user would</td></tr>
+          <tr><td>Multi-device Docs Tester</td><td><strong>100%</strong> (2/2 PRs)</td><td>Tests across mobile/tablet/desktop</td></tr>
+        </tbody>
+      </table>
+      <p>Surprising finding: specialized documentation agents outperform general-purpose ones. One updates content, another simplifies verbosity, a third tests usability.</p>
+
+      <h2>Pattern 4: Two-Agent Security</h2>
+      <p>Continuous security agents monitor for vulnerabilities and detect issues — but they don't fix them directly. Instead, they create GitHub issues for a second agent (like Copilot Coding Assistant) to resolve. This two-agent pattern separates detection from remediation, adding a human review step between finding a problem and applying a fix.</p>
+      <pre><code>Agent A (detector): finds issue → creates GitHub issue
+Agent B (fixer): picks up issue → creates fix PR
+Human: reviews and merges PR</code></pre>
+
+      <h2>Pattern 5: Interactive / ChatOps</h2>
+      <p>Not everything runs on a schedule. Slash command workflows respond to developer commands on demand:</p>
+      <pre><code>---
+on:
+  issue_comment:
+    types: [created]
+---
+
+If the comment starts with `/plan`, break this issue down into
+actionable sub-tasks that coding agents can tackle.</code></pre>
+      <p><strong>Real metric:</strong> The <code>/plan</code> command agent contributed <strong>514 merged PRs out of 761 proposed (67% merge rate)</strong> — the highest-volume workflow in the entire factory.</p>
+
+      <h2>Pattern 6: Multi-Agent Project Coordination</h2>
+      <p>The most sophisticated pattern — multiple specialized agents working toward a shared goal, each handling a specific role in a pipeline.</p>
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>Agent</th><th>Output</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Discovery</td><td>Discussion Task Miner</td><td>Issues from discussions</td></tr>
+          <tr><td>Planning</td><td>Plan Command</td><td>Sub-tasks from issues</td></tr>
+          <tr><td>Execution</td><td>Copilot Coding Assistant</td><td>PRs fixing sub-tasks</td></tr>
+          <tr><td>Monitoring</td><td>Workflow Health Manager</td><td>Status reports</td></tr>
+        </tbody>
+      </table>
+      <p>Verified causal chain example: Discussion <a href="https://github.com/github/gh-aw/discussions/13934" target="_blank" rel="noopener noreferrer">#13934 ↗</a> → Issue <a href="https://github.com/github/gh-aw/issues/14084" target="_blank" rel="noopener noreferrer">#14084 ↗</a> → PR <a href="https://github.com/github/gh-aw/pull/14129" target="_blank" rel="noopener noreferrer">#14129 ↗</a></p>
+
+      <h2>Pattern 7: Meta-Analytics</h2>
+      <p>Agents that analyze the behavior of other agents using ML, clustering, and sentiment analysis.</p>
+      <ul>
+        <li><strong>Prompt Clustering Analysis:</strong> Revealed that "40% of our prompts are about error handling"</li>
+        <li><strong>Copilot PR NLP Analysis:</strong> Found that PRs with questions in the title get faster review</li>
+        <li><strong>Copilot Agent Analysis:</strong> 48 daily analysis discussions identifying behavioral patterns</li>
+      </ul>
+
+      <h2>The AgentPages Continuous AI Loop</h2>
+      <p>AgentPages implements its own research-focused pattern:</p>
+      <pre><code>Schedule trigger (every 12 hours)
+    ↓
+Read user instructions (profile, feedback, requests)
+    ↓
+Research 2–3 topics via Tavily web search
+    ↓
+Update agent/knowledge/ files
+    ↓
+Rebuild Astro site → docs/
+    ↓
+Create PR → auto-merge → live site updated</code></pre>
+      <p>Key properties: <strong>incremental</strong> (2–3 topics per run), <strong>persistent memory</strong> (<code>agent/memory/</code>), <strong>prioritized</strong> (explicit requests first), <strong>auditable</strong> (full log in <code>agent/memory/log.md</code>).</p>
+
+      <h2>Design Principles</h2>
+      <p>From GitHub Next's experience running 19 categories of production workflows:</p>
+      <ol>
+        <li><strong>Specialize, don't generalize</strong> — one agent, one job. Focused agents outperform general-purpose ones.</li>
+        <li><strong>Measure everything</strong> — track merge rates, causal chains, and cost per run.</li>
+        <li><strong>Start with schedule triggers</strong> — predictable cadences make budgets manageable.</li>
+        <li><strong>Use the two-agent pattern for risky changes</strong> — detection and remediation should be separate.</li>
+        <li><strong>Increment, don't replace</strong> — update and extend; don't delete unless provably outdated.</li>
+        <li><strong>Human approval gates for critical operations</strong> — agents propose, humans approve anything irreversible.</li>
+      </ol>
+
+      <h2>Getting Started: Daily Digest</h2>
+      <p>The simplest Continuous AI pattern to deploy:</p>
+      <pre><code>---
+on:
+  schedule: daily
+permissions:
+  contents: read
+  issues: read
+safe-outputs:
+  create-issue:
+    title-prefix: "[daily-status] "
+    labels: [report]
+    close-older-issues: true
+---
+
+Create an upbeat daily status report as a GitHub issue.
+Include recent activity, progress highlights, and next steps.</code></pre>
+      <p>One workflow, runs every day, closes yesterday's report automatically. A perfect first Continuous AI workflow.</p>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    border-radius: 0 4px 4px 0;
+  }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+</style>

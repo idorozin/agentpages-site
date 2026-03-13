@@ -4,15 +4,14 @@
 
 ## Current Priorities
 
-1. Research **AI engine comparison** — Claude vs Copilot vs Codex vs Gemini for research agents
-2. Research **continuous AI patterns** — examples from GitHub Next, how teams use gh-aw in production
-3. Refresh any topics older than 7 days (next due: 2026-03-19)
+1. Refresh any topics older than 7 days (next due: 2026-03-19)
+2. Research **community & ecosystem** — projects built on AgentPages, related agentic workflow tools
+3. Research **advanced gh-aw** — custom MCP scripts, environment variables, cross-repo patterns
 
 ## Backlog
 
-- Community & ecosystem: projects built on AgentPages, related tools
-- Continuous AI patterns and examples from GitHub Next
-- Cost comparison across AI engines (detailed breakdown)
-- Advanced gh-aw: pinning versions, custom MCP scripts, environment variables
-- GitHub Pages setup and deployment tips
-- Content Collections upgrade path for larger knowledge bases
+- GitHub Pages setup and deployment tips (custom domains, troubleshooting)
+- Content Collections upgrade path for larger knowledge bases (>20 topics)
+- Cost comparison across AI engines (detailed breakdown with real numbers)
+- Security deep dive: AWF firewall configuration, MCP gateway setup
+- AgentPages vs. alternatives (comparison with other automated content tools)

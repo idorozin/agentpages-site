@@ -11,3 +11,5 @@
 | Astro Framework | astro-framework.md | 2026-03-12 | current |
 | Use Cases & Examples | use-cases.md | 2026-03-12 | current |
 | Model Context Protocol (MCP) | mcp.md | 2026-03-12 | current |
+| AI Engine Comparison | ai-engine-comparison.md | 2026-03-12 | current |
+| Continuous AI Patterns | continuous-ai-patterns.md | 2026-03-12 | current |

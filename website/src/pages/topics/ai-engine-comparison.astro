@@ -1,0 +1,182 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-12";
+const sources = [
+  { url: "https://github.github.com/gh-aw/reference/engines/", title: "AI Engines Reference — GitHub Agentic Workflows" },
+  { url: "https://github.github.com/gh-aw/llms-full.txt", title: "gh-aw Full Documentation" },
+  { url: "https://github.com/github/gh-aw", title: "gh-aw GitHub Repository" },
+];
+---
+
+<Base title="AI Engine Comparison — AgentPages" description="Claude vs Copilot vs Codex vs Gemini for research agents: strengths, pricing, configuration options, and how to choose.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">AI Engine Comparison</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="content">
+      <p>GitHub Agentic Workflows supports four AI engines for running agentic workflows. Choosing the right engine affects research quality, cost, and reliability. Here's how they compare for use in AgentPages.</p>
+
+      <h2>The Four Engines</h2>
+      <table>
+        <thead>
+          <tr><th>Engine</th><th><code>engine.id</code></th><th>Provider</th><th>Required Secret</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GitHub Copilot CLI <em>(default)</em></td><td><code>copilot</code></td><td>GitHub/Microsoft</td><td><code>COPILOT_GITHUB_TOKEN</code></td></tr>
+          <tr><td>Claude Code</td><td><code>claude</code></td><td>Anthropic</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+          <tr><td>OpenAI Codex</td><td><code>codex</code></td><td>OpenAI</td><td><code>OPENAI_API_KEY</code></td></tr>
+          <tr><td>Google Gemini CLI</td><td><code>gemini</code></td><td>Google</td><td><code>GEMINI_API_KEY</code></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Copilot is the default.</strong> Omit the <code>engine:</code> block entirely to use it.</p>
+
+      <h2>GitHub Copilot CLI</h2>
+      <p>The easiest to set up if you already have a GitHub Copilot subscription — no extra API key needed.</p>
+      <ul>
+        <li>Uses your existing GitHub token (<code>COPILOT_GITHUB_TOKEN</code>)</li>
+        <li>Tight integration with GitHub's ecosystem</li>
+        <li>Supports <strong>custom agent files</strong> in <code>.github/agents/</code> for specialized system prompts</li>
+        <li>Billing through GitHub rather than a separate API provider</li>
+      </ul>
+      <pre><code>engine:
+  id: copilot
+  model: gpt-5           # or gpt-5-mini, gpt-4.1, gpt-4.1-mini
+  agent: research-agent  # references .github/agents/research-agent.agent.md</code></pre>
+
+      <h2>Claude (Claude Code)</h2>
+      <p>The default engine in the official AgentPages template. Anthropic's Claude is a popular choice for research agents due to its strong long-context reasoning and writing quality.</p>
+      <ul>
+        <li>Excellent synthesis of complex, multi-source research</li>
+        <li>Wide model range: Opus (frontier) → Sonnet (balanced) → Haiku (budget)</li>
+        <li>Strong instruction-following for nuanced research prompts</li>
+      </ul>
+      <pre><code>engine:
+  id: claude
+  model: claude-sonnet-4-6   # recommended for research
+  # model: claude-opus-4-6   # highest quality, highest cost
+  # model: claude-haiku-4-5  # fastest, lowest cost</code></pre>
+
+      <h3>Choosing a Claude Model</h3>
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Best for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>claude-opus-4-6</code></td><td>Complex multi-step research synthesis</td></tr>
+          <tr><td><code>claude-sonnet-4-6</code></td><td>Balanced quality/cost — AgentPages default</td></tr>
+          <tr><td><code>claude-haiku-4-5</code></td><td>Triage, labeling, quick summaries</td></tr>
+        </tbody>
+      </table>
+
+      <h2>OpenAI Codex</h2>
+      <p>OpenAI's Codex engine gives access to the GPT-5 series and o-series reasoning models.</p>
+      <ul>
+        <li>Access to GPT-5, GPT-4.1, and o-series reasoning models</li>
+        <li>Strong at code-heavy tasks and structured data extraction</li>
+        <li>o-series models excel at multi-step planning</li>
+      </ul>
+      <pre><code>engine:
+  id: codex
+  model: gpt-5       # frontier
+  # model: gpt-4.1   # balanced
+  # model: gpt-4.1-mini  # budget</code></pre>
+
+      <h2>Google Gemini CLI</h2>
+      <p>Google's Gemini engine — the newest addition to gh-aw.</p>
+      <ul>
+        <li>Very large context windows — excellent for large knowledge bases</li>
+        <li>Competitive pricing, especially for the Flash tier</li>
+        <li>Newest engine, less battle-tested in production gh-aw use</li>
+      </ul>
+      <pre><code>engine:
+  id: gemini
+  model: gemini-3-pro-preview  # or gemini-2.5-flash for budget</code></pre>
+
+      <h2>Which Engine Should You Use?</h2>
+      <table>
+        <thead>
+          <tr><th>Use Case</th><th>Recommended</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Getting started quickly</td><td>Copilot</td><td>No extra API key needed</td></tr>
+          <tr><td>Best research quality</td><td>Claude Sonnet/Opus</td><td>Strong synthesis and writing</td></tr>
+          <tr><td>Budget-conscious operation</td><td>Claude Haiku or GPT-4.1 mini</td><td>Much lower cost per run</td></tr>
+          <tr><td>Code-heavy research topics</td><td>Codex (GPT-5)</td><td>Strong at technical content</td></tr>
+          <tr><td>Large knowledge bases</td><td>Gemini Pro/Flash</td><td>Very large context window</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Version Pinning</h2>
+      <p>For reproducible builds, pin the engine CLI version:</p>
+      <pre><code>engine:
+  id: claude
+  version: "2.1.70"    # pin to a specific Claude Code CLI release
+  model: claude-sonnet-4-6</code></pre>
+      <p>This prevents unexpected behavior from new CLI releases. Remember to update periodically to get bug fixes.</p>
+
+      <h2>Switching Engines</h2>
+      <p>After changing <code>engine:</code> in your workflow <code>.md</code> file, you <strong>must recompile</strong>:</p>
+      <pre><code>gh aw compile .github/workflows/research.md
+git add .github/workflows/research.md .github/workflows/research.md.lock.yml
+git commit -m "Switch to Claude engine"
+git push</code></pre>
+      <p>The lock file embeds engine-specific configuration and must be regenerated on every engine change.</p>
+
+      <h2>Cost Monitoring</h2>
+      <p>Use these commands to track usage and cost:</p>
+      <pre><code># View logs for recent runs
+gh aw logs
+
+# Deep-dive into a specific run's token usage
+gh aw audit &lt;run-id&gt;</code></pre>
+    </div>
+
+    <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <p class="section-label">Sources</p>
+      <ul style="list-style: none; padding: 0;">
+        {sources.map(s => (
+          <li style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .content h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .content h3 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent);
+  }
+  .content p { margin-bottom: 1rem; }
+  .content ul, .content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  .content li { margin-bottom: 0.35rem; }
+  .content pre {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  .content code {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.875em;
+    background: var(--bg-surface);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  .content pre code { background: none; padding: 0; }
+  em { color: var(--text-muted); }
+</style>

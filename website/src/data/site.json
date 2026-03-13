@@ -44,6 +44,18 @@
       "title": "Getting Started",
       "summary": "Step-by-step setup guide: fork the repo, install gh-aw, configure API secrets, define your research focus, and trigger your first agent run.",
       "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "ai-engine-comparison",
+      "title": "AI Engine Comparison",
+      "summary": "Claude vs Copilot vs Codex vs Gemini for research agents: strengths, pricing, configuration options, and how to choose the right engine for your AgentPages instance.",
+      "last_updated": "2026-03-12"
+    },
+    {
+      "slug": "continuous-ai-patterns",
+      "title": "Continuous AI Patterns",
+      "summary": "The emerging paradigm of systematic, automated AI applied to software collaboration. Real patterns and metrics from GitHub Next's 19-workflow agent factory.",
+      "last_updated": "2026-03-12"
     }
   ]
 }
