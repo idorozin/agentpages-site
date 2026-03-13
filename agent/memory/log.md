@@ -4,18 +4,45 @@
 
 ---
 
-## Run 4 — 2026-03-12
+## Run 5 - 2026-03-13
 
 **Topics researched:** 2
-- **AI Engine Comparison** — detailed comparison of all four gh-aw engines (Copilot, Claude, Codex, Gemini), configuration options, model tiers, cost optimization, version pinning, engine switching
-- **Continuous AI Patterns** — GitHub Next's Continuous AI concept, Peli's Agent Factory 19-workflow categories, real merge rate metrics, multi-agent coordination patterns, design principles, AgentPages as a Continuous AI system
+- **Advanced gh-aw Configuration** - Power-user patterns, custom MCP servers, environment variable strategies, multi-agent pipelines, debugging techniques, rate limiting, production deployment considerations
+- **AgentPages Community & Ecosystem** - Ecosystem overview (gh-aw, Tavily, Astro, MCP), real-world patterns (documentation automation, competitive intelligence, learning paths), ecosystem participants, emerging trends (multi-agent coordination, domain-specific MCPs, knowledge graphs)
+
+**Sources consulted:**
+- https://github.com/github/gh-aw (gh-aw README and reference documentation)
+- https://github.github.com/gh-aw/reference/engines/ (Engine reference)
+- https://github.github.com/gh-aw/guides/mcps/ (MCP configuration guide)
+- https://github.com/idorozin/AgentPages (README, use cases, workflow examples)
+- https://github.com/modelcontextprotocol/modelcontextprotocol (MCP specification)
+
+**Changes made:**
+- Created `agent/knowledge/advanced-gw-configuration.md`
+- Created `agent/knowledge/community-ecosystem.md`
+- Updated `agent/knowledge/_index.md` with 2 new topics (total: 11)
+- Added 2 entries to `website/src/data/site.json` topics array
+- Created `website/src/pages/topics/advanced-gw-configuration.astro`
+- Created `website/src/pages/topics/community-ecosystem.astro`
+- Added nav links (Advanced Config, Ecosystem) to `website/src/layouts/Base.astro`
+- Built site to `docs/` - 12 pages total
+
+**Issues:** Initial Astro template with complex strings and em-dashes caused compilation errors; resolved by generating clean Astro files from template. Build succeeded with Node.js v22.22.1.
+
+---
+
+## Run 4 - 2026-03-12
+
+**Topics researched:** 2
+- **AI Engine Comparison** - detailed comparison of all four gh-aw engines (Copilot, Claude, Codex, Gemini), configuration options, model tiers, cost optimization, version pinning, engine switching
+- **Continuous AI Patterns** - GitHub Next's Continuous AI concept, Peli's Agent Factory 19-workflow categories, real merge rate metrics, multi-agent coordination patterns, design principles, AgentPages as a Continuous AI system
 
 **Sources consulted:**
 - https://github.github.com/gh-aw/reference/engines/ (AI Engines reference page)
 - https://github.github.com/gh-aw/llms-full.txt (complete documentation)
 - https://github.github.com/gh-aw/_llms-txt/agentic-workflows.txt (Peli's Agent Factory 19-part blog series)
 - https://github.com/github/gh-aw (README)
-- https://github.com/idorozin/AgentPages (README — engine configuration examples)
+- https://github.com/idorozin/AgentPages (README - engine configuration examples)
 
 **Changes made:**
 - Created `agent/knowledge/ai-engine-comparison.md`
@@ -25,7 +52,7 @@
 - Created `website/src/pages/topics/ai-engine-comparison.astro`
 - Created `website/src/pages/topics/continuous-ai-patterns.astro`
 - Added nav links (Engines, Continuous AI) to `website/src/layouts/Base.astro`
-- Built site to `docs/` — 10 pages total
+- Built site to `docs/` - 10 pages total
 
 **Issues:** Node.js v20 not supported by Astro 6; used v22 from hostedtoolcache. Build succeeded.
 

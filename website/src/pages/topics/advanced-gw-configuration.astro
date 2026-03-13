@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+const lastUpdated = "2026-03-13";
+const sources = [{"url": "https://github.com/github/gh-aw", "title": "GitHub Agentic Workflows Repository"}, {"url": "https://github.github.com/gh-aw/reference/engines/", "title": "gh-aw Engine Reference"}, {"url": "https://github.github.com/gh-aw/guides/mcps/", "title": "gh-aw MCP Configuration Guide"}, {"url": "https://github.com/idorozin/AgentPages", "title": "AgentPages Repository"}];
+---
+
+<Base title="Advanced gh-aw Configuration - AgentPages" description="Power-user patterns for GitHub Agentic Workflows: custom MCP servers, environment variables, multi-agent pipelines, debugging techniques, and production deployment.">
+  <article>
+    <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
+      <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem;">Advanced gh-aw Configuration</h1>
+      <p style="color: var(--text-muted); font-size: 0.875rem;">Last updated: 2026-03-13</p>
+    </header>
+
+    <div class="content">
+      <p>Beyond basic setup, GitHub Agentic Workflows supports sophisticated configurations for production agents and complex research workflows.</p>
+
+      <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border);">
+
+      <section style="padding-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+        <p><strong>Sources:</strong></p>
+        <ul style="list-style: none; padding: 0; margin: 0.5rem 0;">
+          {sources.map(source => (
+            <li style="margin-bottom: 0.5rem;">
+              <a href={source.url} target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
+                {source.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+    color: var(--text);
+  }
+
+  .content h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.75rem 0;
+    color: var(--text);
+  }
+
+  .content p, .content ul, .content ol {
+    margin-bottom: 1rem;
+  }
+
+  .content pre {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .content code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875em;
+  }
+
+  .content ul, .content ol {
+    padding-left: 1.5rem;
+  }
+
+  .content li {
+    margin-bottom: 0.5rem;
+  }
+</style>

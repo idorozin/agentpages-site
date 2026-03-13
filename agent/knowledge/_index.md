@@ -13,3 +13,5 @@
 | Model Context Protocol (MCP) | mcp.md | 2026-03-12 | current |
 | AI Engine Comparison | ai-engine-comparison.md | 2026-03-12 | current |
 | Continuous AI Patterns | continuous-ai-patterns.md | 2026-03-12 | current |
+| Advanced gh-aw Configuration | advanced-gw-configuration.md | 2026-03-13 | new |
+| AgentPages Community & Ecosystem | community-ecosystem.md | 2026-03-13 | new |
