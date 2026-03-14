@@ -4,9 +4,13 @@
 
 ## Current Priorities
 
-1. Refresh any topics older than 7 days (next due: 2026-03-19)
+1. Refresh topics (next due: 2026-03-19 when topics reach 7-day staleness)
 2. Research **community & ecosystem** — projects built on AgentPages, related agentic workflow tools
 3. Research **advanced gh-aw** — custom MCP scripts, environment variables, cross-repo patterns
+
+## Completed
+
+- [x] Website UI/UX polish (Run 5) — switched to light theme, enhanced visual hierarchy and spacing
 
 ## Backlog
 
