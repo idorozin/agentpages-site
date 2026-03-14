@@ -4,6 +4,28 @@
 
 ---
 
+## Run 5 — 2026-03-14
+
+**Focus:** Website UI/UX polish (user feedback: "focus on ui/ux polishing, keep the theme light")
+
+**Changes made:**
+- Switched default theme from dark to **light mode** (respects system dark mode preference)
+- Enhanced header with gradient background and typography improvements
+- Improved topic card styling: larger border, shadow effects, smooth hover animations (lift effect)
+- Added gradient background to body for subtle depth
+- Increased spacing throughout (padding, margins, gaps)
+- Enhanced section labels with accent color styling
+- Improved navigation styling with better font weight and spacing
+- Better visual hierarchy with refined typography scales
+- Built site to `docs/` using Node v22 (Astro 6 requirement)
+- All styling respects light/dark mode preferences
+
+**Sources:** User feedback from `user/feedback.md`
+
+**Issues:** Astro requires Node >=22.12.0; used v22.22.1 from hostedtoolcache. Build succeeded.
+
+---
+
 ## Run 4 — 2026-03-12
 
 **Topics researched:** 2
