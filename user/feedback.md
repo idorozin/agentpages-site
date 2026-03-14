@@ -7,9 +7,6 @@ Delete old feedback once the agent has addressed it.
 -->
 
 ## Latest Feedback
-- For now there is enough content in the site focus on ui/ux polishing. keep the theme light though.
-<!-- Example:
-- The article on solar panels was great, but I'd like more focus on costs
-- Please research more about perovskite solar cells specifically
-- The website looks good but the font is too small
--->
+- Always use `<style is:global>` in Base.astro — scoped styles don't reach slot content (topic cards, grids, etc. from index.astro). This was causing the homepage to render as plain unstyled links.
+- Always use light mode as the default theme. Dark mode should only apply via `prefers-color-scheme: dark`.
+- Keep polishing the UI/UX — the content is good enough for now.
